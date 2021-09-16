@@ -27,6 +27,7 @@ public class VoteDao {
 		try {
 			con = cm.connect();
 			
+
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, person.getName());
 			psmt.setString(2, person.getSe_num());
@@ -55,6 +56,7 @@ public class VoteDao {
 					}
 				}
 			}
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,6 +78,7 @@ public class VoteDao {
 			psmt.setString(2, person.getSe_num());
 			int result = psmt.executeUpdate();
 			return result;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
