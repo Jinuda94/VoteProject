@@ -5,44 +5,32 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import pack01.beans.JdbcBeans;
+
 public class VoteDao {
+	private ConnectMake cm;
 	private Connection con;
-    private ResultSet rs;
-    private PreparedStatement psmt;
-    private String url;
-    private String id;
-    private String pw;
-    
-    public VoteDao(){
+	private ResultSet rs;
+	private PreparedStatement psmt;
+	private JdbcBeans jb;
+
+    public VoteDao(ConnectMake cm){
+    	this.cm = cm;
     	this.con = null;
     	this.rs = null;
     	this.psmt = null;
-    	this.url = "jdbc:mysql://118.38.27.44:7878/votedb";
-    	this.id = "jw01";
-    	this.pw = "a123";
-    	try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
     }
 	
 	public void votecheck() {
 		String sql = "";
 
 		try {
-			con = DriverManager.getConnection(url, id, pw);
-	
+			con = cm.connect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				con.close();
-				psmt.close();
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			jb = new JdbcBeans(con, rs, psmt);
+			cm.close(jb);
 		}
 	}
 	
@@ -50,17 +38,11 @@ public class VoteDao {
 		String sql = "";
 
 		try {
-			con = DriverManager.getConnection(url, id, pw);
+			con = cm.connect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				con.close();
-				psmt.close();
-				rs.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			cm.close(jb);
 		}
 	}
 }
