@@ -22,12 +22,15 @@ public class VoteController {
 	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a) {
 		System.out.println("votecheck 옴");
 		VoteDao vd = new VoteDao(new MysqlConnect());
-		int checkFlag = vd.votecheck();
-		
+		int checkFlag = vd.votecheck(a);
+		System.out.println(checkFlag);
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8");
+
 		if(checkFlag == 1) {
 			try {
 				PrintWriter out = response.getWriter();
-				out.println("<script>alert('정보가 일치하지 않습니다.'); location.href='redirect:/index.jsp';</script>");
+				out.println("<script>alert('정보가 일치하지 않습니다.'); location.href='/VoteProject/index.jsp';</script>");
 				out.flush();
 				out.close();
 			} catch (IOException e) {
@@ -37,7 +40,7 @@ public class VoteController {
 		}else if(checkFlag == 2) {
 			try {
 				PrintWriter out = response.getWriter();
-				out.println("<script>alert('이미 투표를 완료하였습니다.'); location.href='redirect:/index.jsp';</script>");
+				out.println("<script>alert('이미 투표를 완료하였습니다.'); location.href='/VoteProject/index.jsp';</script>");
 				out.flush();
 				out.close();
 			} catch (IOException e) {

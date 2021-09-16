@@ -23,7 +23,7 @@ public class VoteDao {
     }
 	
     public int votecheck(Person person) {
-		String sql = "SELECT NAME FROM VOTE_INFO WHERE NAME = ? AND SE_NUM = ?";
+		String sql = "SELECT NAME FROM vote_info WHERE NAME = ? AND SE_NUM = ?";
 		try {
 			con = cm.connect();
 			
@@ -38,7 +38,7 @@ public class VoteDao {
 				//로그인 못한 상태다. 정보불일치
 				return 1;
 			} else {
-				sql = "SELECT VOTE FROM VOTE_INFO WHERE NAME = ? AND SE_NUM = ?";
+				sql = "SELECT VOTE FROM vote_info WHERE NAME = ? AND SE_NUM = ?";
 				
 				psmt = con.prepareStatement(sql);
 				psmt.setString(1, person.getName());
