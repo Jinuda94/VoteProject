@@ -1,16 +1,55 @@
 package pack01.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import pack01.beans.Person;
+import pack01.dao.MysqlConnect;
+import pack01.dao.VoteDao;
 
 @Controller
 @RequestMapping(value = "/vote")
 public class VoteController {
 	
 	@RequestMapping(value = "/votecheck")
-	public String votecheck() {
+	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a) {
 		System.out.println("votecheck 옴");
-		return "Vote";
+		VoteDao vd = new VoteDao(new MysqlConnect());
+		int checkFlag = vd.votecheck();
+		
+		if(checkFlag == 1) {
+			try {
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('정보가 일치하지 않습니다.'); location.href='redirect:/index.jsp';</script>");
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return "redirect:/index.jsp";
+		}else if(checkFlag == 2) {
+			try {
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('이미 투표를 완료하였습니다.'); location.href='redirect:/index.jsp';</script>");
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/index.jsp";
+		}else {
+			session = request.getSession();
+			session.setAttribute("se_num", a.getSe_num());
+			session.setAttribute("name", a.getName());
+			return "Vote";
+		}
 	}
 	
 	@RequestMapping(value = "/voteinsert")

@@ -26,6 +26,12 @@ public class VoteDao {
 
 		try {
 			con = cm.connect();
+			
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -39,6 +45,10 @@ public class VoteDao {
 
 		try {
 			con = cm.connect();
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
