@@ -4,7 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <head>
-<title>메인 페이지</title>
+<link rel="stylesheet" href="./style.css">
+<title>20대 대선 투표</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
@@ -39,17 +40,26 @@
 			});
 		</script>
 	</c:if>
-	<h1>제 20대 대선투표 페이지</h1>
-	<fieldset style="width:150px;">
-		<legend>투표</legend>
+	<div id="back"></div>
+	<div id="ti">
+		<h1>제 20대 대선</h1>
+	</div>
+	<div id="sform">
 		<form method="get" action="${root}/vote/votecheck">
-		<input type="text" placeholder="이름" name="name"/>
-		<br/>
-		<br/>
-		<input type="text" placeholder="주민등록번호 뒷자리만" name="se_num"/>
-		<br/>
-		<br/>
-		<input type="submit" value="투표하러 가기"/>
+
+			<div class="input-box">
+				<input id="username" type="text" name="name" placeholder="이름">
+				<label for="username">이름</label>
+			</div>
+
+			<div class="input-box">
+				<input id="password" type="password" name="se_num"
+					placeholder="비밀번호"> <label for="password">주민등록번호
+					뒷자리</label>
+			</div>
+
+			<input type="submit" value="투표하러 가기"
+				style="background-color: transparent; border: 0px transparent solid;" />
 		</form>
-	</fieldset>
+	</div>
 </body>
