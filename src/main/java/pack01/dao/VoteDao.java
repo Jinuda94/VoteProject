@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import pack01.beans.JdbcBeans;
 import pack01.beans.Person;
+import pack01.beans.Vote;
 
 public class VoteDao {
 	private ConnectMake cm;
@@ -136,4 +138,36 @@ public class VoteDao {
 		//DB에서 오류가 났거나 할것임.
 		return 0;
 	}
+	
+    public Vote voteresult() {
+		String sql = "SELECT count FROM vote_count";
+		System.out.println(sql);
+		Vote vote = new Vote();
+		try {
+			con = cm.connect();
+			psmt = con.prepareStatement(sql);		
+			rs = psmt.executeQuery();
+			int i = 1;
+			while(rs.next()) {
+				if(i==1) {
+					vote.setVote1(rs.getInt(1));
+				}else if(i==2) {
+					vote.setVote2(rs.getInt(1));
+				}else {
+					vote.setVote3(rs.getInt(1));
+				}
+				i++;
+			}
+			return vote;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			jb = new JdbcBeans(con, rs, psmt);
+			cm.close(jb);
+		}
+    	return vote;
+    }
+	
+	
 }

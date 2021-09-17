@@ -48,17 +48,31 @@
 		<form method="post" action="${root}/vote/votecheck">
 
 			<div class="input-box">
-				<input id="username" type="text" name="name" placeholder="이름">
+				<input id="username" type="text" name="name" placeholder="이름" style="color: white;">
 				<label for="username">이름</label>
 			</div>
 
 			<div class="input-box">
 				<input id="password" type="text" name="se_num"
-					placeholder="비밀번호"> <label for="password">휴대폰번호</label>
+					placeholder="비밀번호" style="color: white;"> <label for="password">휴대폰번호</label>
 			</div>
 
 			<input type="submit" value="투표하러 가기"
 				style="background-color: transparent; border: 0px transparent solid;" />
 		</form>
+		<div style="text-align: right;">
+			<a onclick="result(${vt.getVote1()},${vt.getVote2()},${vt.getVote3()});" style="color:white; text-decoration:none;" >결과보기</a> 
+		</div>
 	</div>
+	<script>
+		function result(a,b,c){
+			$().ready(function() {
+				Swal.fire({
+					icon : 'success',
+					title : "1번 후보: "+ a+"\n2번 후보: "+b+"\n3번 후보: "+c,
+				});
+			});
+			
+		}
+	</script>
 </body>

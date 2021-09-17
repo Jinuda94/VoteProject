@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pack01.beans.Person;
+import pack01.beans.Vote;
 import pack01.dao.MysqlConnect;
 import pack01.dao.VoteDao;
 
@@ -20,8 +21,7 @@ import pack01.dao.VoteDao;
 public class VoteController {
 
 	@RequestMapping(value = "/votecheck")
-	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a,
-			Model model) {
+	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a) {
 		System.out.println("votecheck 옴");
 		VoteDao vd = new VoteDao(new MysqlConnect());
 		int checkFlag = vd.votecheck(a);
@@ -35,14 +35,18 @@ public class VoteController {
 			session.setAttribute("name", a.getName());
 			return "Vote";
 		} else {
-			model.addAttribute("alertflag", checkFlag);
-			model.addAttribute("test", "호랑이");
+			request.setAttribute("alertflag", checkFlag);
+			try {
+				request.getRequestDispatcher("/vote/index").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return "main";
 		}
 	}
 
 	@RequestMapping(value = "/voteinsert")
-	public String voteinsert(HttpServletRequest request, HttpServletResponse response, int voteRadio, Model model) {
+	public void voteinsert(HttpServletRequest request, HttpServletResponse response, int voteRadio) {
 		HttpSession session = request.getSession();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -63,19 +67,27 @@ public class VoteController {
 		
 		if (result == 1) {
 			System.out.println("투표 정상적 입력성공.");
-			model.addAttribute("alertflag", 10);
+			request.setAttribute("alertflag", 10);
 		} else {
 			System.out.println("투표 비정상적 경로 or DB오류");
 		}
 
 		System.out.println("voteinsert 완료");
 		session.invalidate();
-
-		return "main";
+		try {
+			request.getRequestDispatcher("/vote/index").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping(value = "index")
-	public String mainpage() {
+	public String mainpage(Model model) {
+		VoteDao votedao = new VoteDao(new MysqlConnect());
+		Vote vote = votedao.voteresult();
+		model.addAttribute("test",1);
+		model.addAttribute("vt",vote);
+		
 		return "main";
 	}
 
