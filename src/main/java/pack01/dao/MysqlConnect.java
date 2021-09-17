@@ -12,9 +12,9 @@ public class MysqlConnect implements ConnectMake {
 
 	public MysqlConnect() {
 		this.con = null;
-		this.url = "jdbc:mysql://118.38.27.44:7878/votedb";
-		this.id = "jw01";
-		this.pw = "a123";
+		this.url = "jdbc:mysql://115.22.11.155:3333/votedb";
+		this.id = "ti";
+		this.pw = "1";
 	}
 
 	@Override
