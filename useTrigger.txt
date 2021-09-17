@@ -1,0 +1,23 @@
+트리거 만들기
+
+1)백업 테이블을 만들어 놓는다.
+
+2)트리거 생성한다.
+DELIMITER $$
+	CREATE TRIGGER vote_info_backup
+	before update ON vote_info
+	FOR EACH ROW
+	BEGIN
+		DECLARE a VARCHAR(45);
+		DECLARE b VARCHAR(45);
+		DECLARE c int;
+		SET a = new.name;
+		SET b = new.se_num;
+		SET c = new.vote;
+		update vote_info_backup set vote = c where name = a and se_num = b;
+		
+	END $$
+DELIMITER ;
+
+3)생성된 트리거 확인한다.
+SHOW TRIGGERS;
