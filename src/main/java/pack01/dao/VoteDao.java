@@ -70,13 +70,36 @@ public class VoteDao {
 	
 	public int voteinsert(Person person) {
 		String sql = "UPDATE vote_info set vote=? where se_num=?";
+		
+		try {
+			int result1 = votecount(person);
+			System.out.println(result1);
+			con = cm.connect();
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, 1);
+			psmt.setString(2, person.getSe_num());
+			int result2 = psmt.executeUpdate();
+			System.out.println(result2);
 
+			return result2;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			cm.close(jb);
+		}
+		
+		//DB에서 오류가 났거나 할것임.
+		return 0;
+	}
+	
+	public int votecount(Person person) {
+		String sql = "UPDATE vote_count set count = count+1 WHERE candidate=?";
 		try {
 			con = cm.connect();
 			psmt = con.prepareStatement(sql);
 			psmt.setInt(1, person.getVote());
-			psmt.setString(2, person.getSe_num());
 			int result = psmt.executeUpdate();
+			System.out.println(result);
 			return result;
 
 		} catch (Exception e) {

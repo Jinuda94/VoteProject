@@ -9,6 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${empty sessionScope.name}">
+		<jsp:forward page="vote/index"></jsp:forward>
+	</c:if>
 	<h1>제 20대 대선투표 페이지</h1>
 	<fieldset style="width:150px;">
 		<legend>투표</legend>

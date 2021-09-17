@@ -62,6 +62,7 @@ public class VoteController {
 		}
 
 		System.out.println("voteinsert 완료");
+		session.invalidate();
 
 		return "main";
 	}
