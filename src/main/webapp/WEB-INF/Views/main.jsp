@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <head>
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="${root}/css/style.css">
 <title>20대 대선 투표</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -45,7 +45,7 @@
 		<h1>제 20대 대선</h1>
 	</div>
 	<div id="sform">
-		<form method="get" action="${root}/vote/votecheck">
+		<form method="post" action="${root}/vote/votecheck">
 
 			<div class="input-box">
 				<input id="username" type="text" name="name" placeholder="이름">
@@ -53,7 +53,7 @@
 			</div>
 
 			<div class="input-box">
-				<input id="password" type="password" name="se_num"
+				<input id="password" type="text" name="se_num"
 					placeholder="비밀번호"> <label for="password">주민등록번호
 					뒷자리</label>
 			</div>
