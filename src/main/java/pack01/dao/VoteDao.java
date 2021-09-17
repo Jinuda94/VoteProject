@@ -21,6 +21,31 @@ public class VoteDao {
     	this.rs = null;
     	this.psmt = null;
     }
+    
+    public int voteselect(Person person) {
+		String sql = "SELECT vote FROM vote_info WHERE name = ? AND se_num = ?";
+		System.out.println(sql);
+		try {
+			con = cm.connect();
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, person.getName());
+			psmt.setString(2, person.getSe_num());
+			
+			rs = psmt.executeQuery();
+			int result = 1;
+			while(rs.next()) {
+				result = rs.getInt("vote");
+			}
+			return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			jb = new JdbcBeans(con, rs, psmt);
+			cm.close(jb);
+		}
+    	return 1;
+    }
 	
     public int votecheck(Person person) {
 		String sql = "SELECT NAME FROM vote_info WHERE NAME = ? AND SE_NUM = ?";

@@ -54,8 +54,7 @@
 
 			<div class="input-box">
 				<input id="password" type="text" name="se_num"
-					placeholder="비밀번호"> <label for="password">주민등록번호
-					뒷자리</label>
+					placeholder="비밀번호"> <label for="password">휴대폰번호</label>
 			</div>
 
 			<input type="submit" value="투표하러 가기"

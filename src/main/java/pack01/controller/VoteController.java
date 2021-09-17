@@ -50,15 +50,22 @@ public class VoteController {
 		VoteDao votedao = new VoteDao(new MysqlConnect());
 		Person person = new Person();
 		person.setVote(voteRadio);
+		person.setName((String) session.getAttribute("name"));
 		person.setSe_num((String) session.getAttribute("se_num"));
-
-		int result = votedao.voteinsert(person);
-
+		
+		int voteflag = 0;
+		voteflag = votedao.voteselect(person);
+		System.out.println("voteflag:"+voteflag);
+		int result = 0;
+		if(voteflag == 0) {
+			result = votedao.voteinsert(person);
+		}
+		
 		if (result == 1) {
 			System.out.println("투표 정상적 입력성공.");
 			model.addAttribute("alertflag", 10);
 		} else {
-			System.out.println("DB 오류");
+			System.out.println("투표 비정상적 경로 or DB오류");
 		}
 
 		System.out.println("voteinsert 완료");
