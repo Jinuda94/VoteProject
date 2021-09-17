@@ -10,7 +10,6 @@
 </head>
 <body>
 	<h1>제 20대 대선투표 페이지</h1>
-	
 	<fieldset style="width:150px;">
 		<legend>투표</legend>
 		<form method="get" action="${root}/vote/voteinsert">

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pack01.beans.Person;
@@ -19,7 +20,8 @@ import pack01.dao.VoteDao;
 public class VoteController {
 
 	@RequestMapping(value = "/votecheck")
-	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a) {
+	public String votecheck(HttpServletRequest request, HttpServletResponse response, HttpSession session, Person a,
+			Model model) {
 		System.out.println("votecheck 옴");
 		VoteDao vd = new VoteDao(new MysqlConnect());
 		int checkFlag = vd.votecheck(a);
@@ -27,36 +29,20 @@ public class VoteController {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		if (checkFlag == 1) {
-			try {
-				PrintWriter out = response.getWriter();
-				out.println("<script>alert('정보가 일치하지 않습니다.'); location.href='/VoteProject/index.jsp';</script>");
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return "redirect:/index.jsp";
-		} else if (checkFlag == 2) {
-			try {
-				PrintWriter out = response.getWriter();
-				out.println("<script>alert('이미 투표를 완료하였습니다.'); location.href='/VoteProject/index.jsp';</script>");
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return "redirect:/index.jsp";
-		} else {
+		if (checkFlag == 3) {
 			session = request.getSession();
 			session.setAttribute("se_num", a.getSe_num());
 			session.setAttribute("name", a.getName());
 			return "Vote";
+		} else {
+			model.addAttribute("alertflag", checkFlag);
+			model.addAttribute("test", "호랑이");
+			return "main";
 		}
 	}
 
 	@RequestMapping(value = "/voteinsert")
-	public String voteinsert(HttpServletRequest request, HttpServletResponse response, int voteRadio) {
+	public String voteinsert(HttpServletRequest request, HttpServletResponse response, int voteRadio, Model model) {
 		HttpSession session = request.getSession();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -69,25 +55,20 @@ public class VoteController {
 		int result = votedao.voteinsert(person);
 
 		if (result == 1) {
-			try {
-				PrintWriter pw = response.getWriter();
-				pw.println("<script> " + "alert('투표가 완료되었습니다.'); " + "location.href='/VoteProject/index.jsp';"
-						+ "</script>");
-				pw.flush();
-				pw.close();
-				System.out.println("insert 완료");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			System.out.println("투표 정상적 입력성공.");
+			model.addAttribute("alertflag", 10);
 		} else {
-
 			System.out.println("DB 오류");
 		}
 
 		System.out.println("voteinsert 완료");
 
-		return "redirect:/index.jsp";
+		return "main";
+	}
+
+	@RequestMapping(value = "index")
+	public String mainpage() {
+		return "main";
 	}
 
 }
